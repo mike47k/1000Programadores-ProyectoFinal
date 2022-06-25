@@ -22,7 +22,7 @@ public class ShoppingCart {
     private double total;
     private int discount;
 
-    @ManyToMany(mappedBy = "shoppingCarts")
-    private List<Product> products;
+    @OneToMany(mappedBy = "shoppingCart", fetch = FetchType.LAZY)
+    private List<ShoppingCarts_Products> shoppingCarts_products ;
 
 }

@@ -6,8 +6,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,18 +13,21 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
-public class Product {
+@Table(name = "shoppingCarts_Products")
+public class ShoppingCarts_Products {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private long id;
-    private String name;
-    private String brand;
-    private long stock;
-    private double price;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<ShoppingCarts_Products> shoppingCarts_products ;
+    private int amount;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shoppingCart_id", nullable = false)
+    private ShoppingCart shoppingCart ;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 }

@@ -1,8 +1,8 @@
 package com.Programadores.supermarket.service.impl;
 
 import com.Programadores.supermarket.model.Product;
-import com.Programadores.supermarket.model.ProductList;
 import com.Programadores.supermarket.repository.ProductRepository;
+import com.Programadores.supermarket.request.ProductRequest;
 import com.Programadores.supermarket.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,8 +20,14 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productJpaRepository;
     @Override
     @Transactional
-    public Product createProduct(Product entity) {
-        return productJpaRepository.save(entity);
+    public Product createProduct(ProductRequest entity) {
+        Product p = new Product();
+        p.setBrand(entity.getBrand());
+        p.setName(entity.getName());
+        p.setPrice(entity.getPrice());
+        p.setStock(entity.getStock());
+
+        return productJpaRepository.save(p);
     }
 
     @Override
@@ -38,9 +44,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductList listPorducts(PageRequest pageRequest) {
-        Page<Product> page = productJpaRepository.findAll(pageRequest);
-        return new ProductList(page.getContent(),pageRequest,page.getTotalElements());
+    public List<Product> listPorducts() {
+
+        return (List<Product>) productJpaRepository.findAll();
     }
 
     @Override

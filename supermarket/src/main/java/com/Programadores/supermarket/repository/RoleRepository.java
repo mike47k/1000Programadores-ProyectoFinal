@@ -1,6 +1,7 @@
 package com.Programadores.supermarket.repository;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import com.Programadores.supermarket.model.Role;
+import org.springframework.data.repository.CrudRepository;
 
-public interface RoleRepository extends PagingAndSortingRepository<RoleRepository,Long> {
+public interface RoleRepository extends CrudRepository<Role,Long> {
 }

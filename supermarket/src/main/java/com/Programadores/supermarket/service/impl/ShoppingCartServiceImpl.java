@@ -10,6 +10,8 @@ import com.Programadores.supermarket.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
@@ -34,20 +36,32 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCart addProduct(Long ProductId, Long shoppingCart ,int amount) {
-        ShoppingCart cart = shoppingCartJpaRepository.findById(shoppingCart).orElseThrow();
-        Product product = productJpaRepository.findById(ProductId).orElseThrow();
-        ShoppingCarts_Products cp = new ShoppingCarts_Products();
-        cp.setProduct(product);
-        cp.setShoppingCart(cart);
-        cp.setAmount(amount);
-        return shoppingCarts_productsJpaRepository.save(cp).getShoppingCart();
+    public ShoppingCart getActiveCart(Long userId) {
+        return shoppingCartJpaRepository.findByIsActiveAndUserId(true,userId);
     }
 
     @Override
-    public ShoppingCart removeProduct(Long ProductId, Long shoppingCart,int amount ,boolean delete) {
-        if (delete){
+    public ShoppingCart addProduct(Long ProductId, Long shoppingCart ,int amount) {
+        Optional<ShoppingCarts_Products> cartProductOptional = shoppingCarts_productsJpaRepository.findByShoppingCartIdAndProductId(shoppingCart,ProductId);
+        if(cartProductOptional.isPresent()){
+            ShoppingCarts_Products cp = cartProductOptional.get();
+            cp.setAmount(amount);
+            return shoppingCarts_productsJpaRepository.save(cp).getShoppingCart();
+
+        }else {
+            ShoppingCart cart = shoppingCartJpaRepository.findById(shoppingCart).orElseThrow();
+            Product product = productJpaRepository.findById(ProductId).orElseThrow();
+            ShoppingCarts_Products cp = new ShoppingCarts_Products();
+            cp.setProduct(product);
+            cp.setShoppingCart(cart);
+            cp.setAmount(amount);
+            return shoppingCarts_productsJpaRepository.save(cp).getShoppingCart();
         }
-        return null;
+    }
+
+    @Override
+    public void removeProduct(Long ProductId, Long shoppingCart) {
+        shoppingCarts_productsJpaRepository.findByShoppingCartIdAndProductId(shoppingCart,ProductId)
+                .ifPresent(shoppingCarts_productsJpaRepository::delete);
     }
 }

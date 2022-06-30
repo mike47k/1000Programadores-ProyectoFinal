@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -33,6 +35,9 @@ public class User {
     @JoinColumn(name = "card_id", referencedColumnName = "card_id", nullable = false)
     @ToString.Exclude
     private Card card;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<ShoppingCart> shoppingCarts ;
 
 
 

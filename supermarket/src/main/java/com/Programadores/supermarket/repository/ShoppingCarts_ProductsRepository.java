@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ShoppingCarts_ProductsRepository extends CrudRepository<ShoppingCarts_Products, Long> {
 
     Optional<ShoppingCarts_Products> findByShoppingCartIdAndProductId(Long cartId, Long productId);
+    List<ShoppingCarts_Products> findByShoppingCartId(Long cartId);
 }

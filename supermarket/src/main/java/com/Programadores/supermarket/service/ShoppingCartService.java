@@ -1,6 +1,9 @@
 package com.Programadores.supermarket.service;
 
 import com.Programadores.supermarket.model.ShoppingCart;
+import com.Programadores.supermarket.model.ShoppingCarts_Products;
+
+import java.util.List;
 
 public interface ShoppingCartService {
     ShoppingCart createShoppingCart(ShoppingCart entity);
@@ -10,4 +13,6 @@ public interface ShoppingCartService {
     ShoppingCart getActiveCart(Long userId);
     ShoppingCart addProduct(Long ProductId,Long shoppingCart,int amount);
     void removeProduct(Long ProductId,Long shoppingCart);
+    void payCart(Long idUser,Long idCart);
+    List<ShoppingCarts_Products> getProducts(long id);
 }

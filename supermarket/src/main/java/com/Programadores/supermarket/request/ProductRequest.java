@@ -13,6 +13,7 @@ public class ProductRequest {
 
      String name;
      String brand;
+     String image;
      long stock;
      double price;
 }

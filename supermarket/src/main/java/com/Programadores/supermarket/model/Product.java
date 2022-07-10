@@ -24,6 +24,7 @@ public class Product {
     private long id;
     private String name;
     private String brand;
+    private String image;
     private long stock;
     private double price;
 

@@ -1,5 +1,6 @@
 package com.Programadores.supermarket.service;
 
+import com.Programadores.supermarket.model.Pay;
 import com.Programadores.supermarket.model.ShoppingCart;
 import com.Programadores.supermarket.model.ShoppingCarts_Products;
 
@@ -11,8 +12,10 @@ public interface ShoppingCartService {
     ShoppingCart getShoppingCartById(Long id);
 
     ShoppingCart getActiveCart(Long userId);
+
+    ShoppingCart getCart(Long cartId);
     ShoppingCart addProduct(Long ProductId,Long shoppingCart,int amount);
     void removeProduct(Long ProductId,Long shoppingCart);
-    void payCart(Long idUser,Long idCart);
+    Pay payCart(Long idUser, Long idCart);
     List<ShoppingCarts_Products> getProducts(long id);
 }

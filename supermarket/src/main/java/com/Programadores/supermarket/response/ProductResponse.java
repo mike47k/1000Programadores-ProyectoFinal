@@ -9,6 +9,7 @@ public class ProductResponse {
     long id;
     String name;
     String brand;
+    String image;
     long stock;
     double price;
 }

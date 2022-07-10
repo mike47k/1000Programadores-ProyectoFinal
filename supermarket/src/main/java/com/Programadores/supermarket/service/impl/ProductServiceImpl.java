@@ -1,5 +1,6 @@
 package com.Programadores.supermarket.service.impl;
 
+import com.Programadores.supermarket.mapper.ProductControllerMapper;
 import com.Programadores.supermarket.model.Product;
 import com.Programadores.supermarket.repository.ProductRepository;
 import com.Programadores.supermarket.request.ProductRequest;
@@ -18,16 +19,13 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productJpaRepository;
+
     @Override
     @Transactional
-    public Product createProduct(ProductRequest entity) {
-        Product p = new Product();
-        p.setBrand(entity.getBrand());
-        p.setName(entity.getName());
-        p.setPrice(entity.getPrice());
-        p.setStock(entity.getStock());
+    public Product createProduct(Product entity) {
 
-        return productJpaRepository.save(p);
+
+        return productJpaRepository.save(entity);
     }
 
     @Override

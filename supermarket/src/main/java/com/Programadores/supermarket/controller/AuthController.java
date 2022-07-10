@@ -34,7 +34,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getUserInformation(@AuthenticationPrincipal User user) {
-        System.out.println("lllllllllllllllllllllllllllllllllll");
         UserResponse response = mapper.userToUserResponse(user);
         System.out.println(response);
 
@@ -46,7 +45,7 @@ public class AuthController {
 
         AuthenticationResponse response =
                 prepareAuthenticationResponse(request.username(), request.password());
-
+        System.out.println(response);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

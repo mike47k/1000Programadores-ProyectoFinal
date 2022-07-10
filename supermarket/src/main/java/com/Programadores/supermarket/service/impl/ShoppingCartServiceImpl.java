@@ -42,6 +42,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    public ShoppingCart getCart(Long cartId) {
+        return shoppingCartJpaRepository.findById(cartId).get();
+    }
+
+    @Override
     public ShoppingCart addProduct(Long ProductId, Long shoppingCart ,int amount) {
         Optional<ShoppingCarts_Products> cartProductOptional = shoppingCarts_productsJpaRepository.findByShoppingCartIdAndProductId(shoppingCart,ProductId);
         if(cartProductOptional.isPresent()){
@@ -86,7 +91,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void payCart(Long idUser,Long idCart) {
+    public Pay payCart(Long idUser,Long idCart) {
         ShoppingCart c = shoppingCartJpaRepository.findById(idCart).get();
         User u = userJpaRepository.findById(idUser).get();
         c.setActive(false);
@@ -94,13 +99,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         pay.setTotal(c.getTotal()*(c.getDiscount()/100));
         pay.setAddress(u.getAddress());
         pay.setShoppingCart(c);
-        payJpaRepository.save(pay);
+        Pay paySaved = payJpaRepository.save(pay);
         ShoppingCart sc = new ShoppingCart();
         sc.setActive(true);
         sc.setTotal(0);
         sc.setDiscount(10);
         sc.setUser(u);
         shoppingCartJpaRepository.save(sc);
+        return paySaved;
 
 
 
